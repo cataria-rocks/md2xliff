@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+var fs = require('fs'),
+    extract = require('..').extract,
+    args = process.argv;
+
+if (args.length < 3) {
+    console.log([
+        'USAGE:',
+        'extract path/to/source.md [path/to/target-xliff.xlf] [path/to/target-skeleton.md] [srcLang] [trgLang]',
+        'Example:',
+        'extract source.md source.xlf source.skl.md ru-RU en-US'
+    ].join('\n'));
+
+    process.exit(1);
+}
+
+var markdownFileName = args[2],
+    sourceMd = fs.readFileSync(markdownFileName, 'utf8'),
+    fileNameWithoutExt = markdownFileName.split('.').shift(),
+    xliffFilename = args[3] || fileNameWithoutExt + '.xlf',
+    skeletonFilename = args[4] || fileNameWithoutExt + '.skl.md',
+    srcLang = args[5] || 'ru-RU',
+    trgLang = args[6] || 'en-US',
+
+    extracted = extract(sourceMd, markdownFileName, skeletonFilename, srcLang, trgLang);
+
+fs.writeFileSync(xliffFilename, extracted.xliff);
+fs.writeFileSync(skeletonFilename, extracted.skeleton);

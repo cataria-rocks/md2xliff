@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+var fs = require('fs'),
+    pretranslate = require('../lib/pretranslate'),
+    args = process.argv;
+
+if (args.length < 3) {
+    console.log('USAGE:\npretranslate path/to/source.xlf [path/to/target.xlf]');
+    process.exit(1);
+}
+
+var xliff = fs.readFileSync(args[2], 'utf8'),
+    targetFilename = args[3] || args[2].split('.').shift() + '.pretranslated.xlf';
+
+pretranslate(xliff, {
+    apiKey: process.env.API_KEY
+}, function(err, translated) {
+    if (err) throw new Error(err);
+
+    fs.writeFileSync(targetFilename, translated);
+});

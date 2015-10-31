@@ -1,0 +1,42 @@
+{
+  "name": "md2xliff",
+  "version": "1.0.0",
+  "description": "Markdown to XLIFF converter",
+  "main": "index.js",
+  "bin": {
+    "extract": "./bin/extract",
+    "reconstruct": "./bin/reconstruct",
+    "pretranslate": "./bin/pretranslate"
+  },
+  "scripts": {
+    "test": "node test"
+  },
+  "bugs": {
+    "url": "http://github.com/tadatuta/md2xliff/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tadatuta/md2xliff.git"
+  },
+  "author": "Vladimir Grinenko <i@tadatuta.com>",
+  "keywords": [
+    "xliff",
+    "markdown",
+    "skeleton",
+    "translation",
+    "localization",
+    "i18n",
+    "github",
+    "xlf",
+    "code"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "escape-html": "^1.0.3",
+    "esprima": "^2.7.0",
+    "esprima-extract-comments": "^0.1.2",
+    "got": "^5.0.0",
+    "marked": "^0.3.5",
+    "xamel": "^0.3.1"
+  }
+}
