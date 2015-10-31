@@ -36,6 +36,7 @@
     "esprima": "^2.7.0",
     "esprima-extract-comments": "^0.1.2",
     "got": "^5.0.0",
+    "htmlparser2": "^3.8.3",
     "marked": "^0.3.5",
     "xamel": "^0.3.1"
   }
