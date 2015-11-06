@@ -6,5 +6,7 @@ var fs = require('fs'),
 var xliff = fs.readFileSync(require('path').resolve(__dirname, '../test/source.pretranslated.xlf'), 'utf8');
 
 xliff2tmx(xliff, function(err, tmx) {
+    if (err) throw new Error(err);
+
     fs.writeFileSync('test/source.tmx', tmx);
 });
