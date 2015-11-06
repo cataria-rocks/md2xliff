@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+
+var fs = require('fs'),
+    xliff2tmx = require('../lib/xliff2tmx');
+
+var xliff = fs.readFileSync(require('path').resolve(__dirname, '../test/source.pretranslated.xlf'), 'utf8');
+
+xliff2tmx(xliff, function(err, tmx) {
+    fs.writeFileSync('test/source.tmx', tmx);
+});
