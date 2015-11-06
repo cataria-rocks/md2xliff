@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+var fs = require('fs'),
+    path = require('path'),
+    tmxapply = require('../lib/tmxapply'),
+    xliffFile = path.resolve(__dirname, '../test/source.xlf'),
+    tmxFile = path.resolve(__dirname, '../test/source.tmx'),
+    xliff = fs.readFileSync(xliffFile, 'utf8'),
+    tmx = fs.readFileSync(tmxFile, 'utf8');
+
+tmxapply(xliff, tmx, { srcLang: 'ru-RU', trgtLang: 'en-US' }, function(err, xliff) {
+    err ? console.error(err) : fs.writeFileSync('xliff-with-tmx.xlf', xliff);
+});
