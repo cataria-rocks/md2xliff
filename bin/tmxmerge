@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+var fs = require('fs'),
+    path = require('path'),
+    tmxmerge = require('../lib/tmxmerge'),
+    tmx1File = path.resolve(__dirname, '../test/tmx1.tmx'),
+    tmx2File = path.resolve(__dirname, '../test/tmx2.tmx'),
+    tmx1 = fs.readFileSync(tmx1File, 'utf8'),
+    tmx2 = fs.readFileSync(tmx2File, 'utf8');
+
+tmxmerge(tmx1, tmx2, function(err, tmx) {
+    err ? console.error(err) : fs.writeFileSync('merged.tmx', tmx);
+});
