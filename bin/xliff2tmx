@@ -1,12 +1,21 @@
 #!/usr/bin/env node
 
 var fs = require('fs'),
-    xliff2tmx = require('../lib/xliff2tmx');
+    path = require('path'),
+    xliff2tmx = require('../lib/xliff2tmx'),
+    xliffFilename = process.argv[2];
 
-var xliff = fs.readFileSync(require('path').resolve(__dirname, '../test/source.pretranslated.xlf'), 'utf8');
+if (!xliffFilename) {
+    console.log('USAGE: TODO');
+    process.exit(1);
+}
+
+var tmxFilename = process.argv[3] || (xliffFilename.split('.')[0] + '.tmx');
+
+var xliff = fs.readFileSync(path.resolve(process.cwd(), xliffFilename), 'utf8');
 
 xliff2tmx(xliff, function(err, tmx) {
     if (err) throw new Error(err);
 
-    fs.writeFileSync('test/source.tmx', tmx);
+    fs.writeFileSync(path.join(process.cwd(), tmxFilename), tmx);
 });
