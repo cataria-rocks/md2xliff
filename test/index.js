@@ -399,4 +399,19 @@ describe('extract', function() {
             ]);
         });
     });
+
+    it('should escape slashes (#16)', function() {
+        const markdown = [
+            '# Можно-ли-создавать-элементы-элементов-block\\__elem1\\__elem2'
+        ].join('\n');
+
+        const { skeleton, data: xliff } = extract(markdown);
+
+        assert.equal(skeleton, [
+            '# %%%1%%%'
+        ].join('\n'));
+
+        assertContent(xliff, 'Можно-ли-создавать-элементы-элементов-block\\__elem1\\__elem2');
+    });
+
 });
