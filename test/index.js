@@ -414,7 +414,7 @@ describe('extract', function() {
         assertContent(xliff, 'Можно-ли-создавать-элементы-элементов-block\\__elem1\\__elem2');
     });
 
-    it('should escape ru', function() {
+    it('should escape string with entity', function() {
         const markdown = [
           //  '# Способы изменения блока',
 
