@@ -400,6 +400,91 @@ describe('extract', function() {
         });
     });
 
+    describe('segment splitting', function() {
+        it('should split segments by .!?', function() {
+            const markdown = 'It was grateful. It was grateful? It was grateful!';
+
+            const { skeleton, data: xliff } = extract(markdown);
+
+            assert.equal(skeleton,[
+                '%%%1%%%',
+                '%%%2%%%',
+                '%%%3%%%'
+            ].join(' '));
+
+            assertContent(xliff, [
+                'It was grateful.',
+                'It was grateful?',
+                'It was grateful!'
+            ]);
+        });
+
+        it('should not split abbreviations', function() {
+            const markdown = [
+                'First level heading i.e. h1.',
+                'Заголовок первого уровня т.е. "h1".'
+            ].join('\n');
+
+            const { skeleton, data: xliff } = extract(markdown);
+
+            assert.equal(skeleton,[
+                '%%%1%%%',
+                '%%%2%%%'
+            ].join('\n'));
+
+            assertContent(xliff, [
+                'First level heading i.e. h1.',
+                'Заголовок первого уровня т.е. "h1".'
+            ]);
+        });
+
+        it.skip('should split number', function() {
+            const markdown = [
+               'First level heading i.e. 1.',
+                'First level heading i.e. (1).'
+            ].join('\n');
+
+            const { skeleton, data: xliff } = extract(markdown);
+
+            assert.equal(skeleton,[
+                '%%%1%%%',
+                '%%%2%%%'
+            ].join('\n'));
+
+            assertContent(xliff, [
+               'First level heading i.e. 1.',
+               'First level heading i.e. (1).'
+            ]);
+        });
+
+        it('should not split float numbers', function() {
+            const markdown = [
+                'Лего 2.0. появление БЭМ (2009).',
+                'Лего 2.0. "появление БЭМ" (2009).',
+                'Лего 2.0. Появление БЭМ (2009).',
+                'Лего 2.0. "Появление БЭМ" (2009).'
+            ].join('\n');;
+
+            const { skeleton, data: xliff } = extract(markdown);
+
+            assert.equal(skeleton,[
+                '%%%1%%%',
+                '%%%2%%%',
+                '%%%3%%% %%%4%%%',
+                '%%%5%%% %%%6%%%'
+            ].join('\n'));
+
+            assertContent(xliff, [
+                'Лего 2.0. появление БЭМ (2009).',
+                'Лего 2.0. "появление БЭМ" (2009).',
+                'Лего 2.0.',
+                'Появление БЭМ (2009).',
+                'Лего 2.0.',
+                '"Появление БЭМ" (2009).'
+            ]);
+        });
+    });
+
     it('should escape slashes (#16)', function() {
         const markdown = [
             '# Можно-ли-создавать-элементы-элементов-block\\__elem1\\__elem2'
