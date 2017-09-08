@@ -414,4 +414,32 @@ describe('extract', function() {
         assertContent(xliff, 'Можно-ли-создавать-элементы-элементов-block\\__elem1\\__elem2');
     });
 
+    it('should escape string with entity', function() {
+        const markdown = [
+            'First level heading — H1.',
+            'Second level heading \t H2.',
+            'Third level heading \r H3.',
+            'Fourth level heading \r\n H4.',
+            'Fifth level heading ␤ H5.'
+        ].join('\n');
+
+        const { skeleton, data: xliff } = extract(markdown);
+
+        assert.equal(skeleton, [
+           '%%%1%%%',
+           '%%%2%%%',
+           '%%%3%%%',
+           '%%%4%%%',
+           '%%%5%%%'
+        ].join('\n'));
+
+        assertContent(xliff, [
+            'First level heading — H1.',
+            'Second level heading      H2.',
+            'Third level heading \n H3.',
+            'Fourth level heading \n H4.',
+            'Fifth level heading \n H5.'
+        ]);
+    });
+
 });
