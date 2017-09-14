@@ -22,7 +22,7 @@ describe('extract', function() {
                     id: 1,
                     source: {
                         content: 'String',
-                        lang: 'ru-RU',
+                        lang: 'ru-RU'
                     },
                     target: {
                         lang: 'en-US'
@@ -69,28 +69,62 @@ describe('extract', function() {
 
         it.skip('should extract lists', function() {
             const markdown = [
-                '* bla'
+                '1. First ordered list item',
+                '2. Another item',
+                '⋅⋅* Unordered sub-list. ',
+                '1. Actual numbers don\'t matter, just that it\'s a number',
+                '⋅⋅1. Ordered sub-list',
+                '4. And another item.',
+                '',
+                '⋅⋅⋅You can have properly indented paragraphs within list items. Notice the blank line above, and the leading spaces (at least one, but we\'ll use three here to also align the raw Markdown).',
+                '',
+                '⋅⋅⋅To have a line break without a paragraph, you will need to use two trailing spaces.⋅⋅',
+                '⋅⋅⋅Note that this line is separate, but within the same paragraph.⋅⋅',
+                '⋅⋅⋅(This is contrary to the typical GFM line break behaviour, where trailing spaces are not required.)',
+                '',
+                '* Unordered list can use asterisks',
+                '- Or minuses',
+                '+ Or pluses'
             ].join('\n');
 
             const { skeleton, data: xliff } = extract(markdown);
 
             assert.equal(skeleton, [
-                '# %%%1%%%',
-                '## %%%2%%%',
+                '1. %%%1%%%',
+                '2. %%%2%%%',
                 '%%%3%%%',
-                '%%%4%%%',
-                '======',
-                '',
+                '1. %%%4%%%',
                 '%%%5%%%',
-                '------'
+                '%%%6%%%',
+                '%%%7%%%',
+                '%%%8%%%',
+                '%%%9%%%',
+                '%%%10%%%',
+                '%%%11%%%',
+                '%%%12%%%',
+                '%%%13%%%',
+                '%%%14%%%',
+                '%%%15%%%',
+                '%%%16%%%'
             ].join('\n'));
 
             assertContent(xliff, [
-                'First level heading',
-                'Second level heading',
-                'Alternatively, for H1 and H2, an underline-ish style:',
-                'Alt-H1',
-                'Alt-H2'
+                'First ordered list item',
+                'Another item',
+                'Unordered sub-list. ',
+                'Actual numbers don\'t matter, just that it\'s a number',
+                'Ordered sub-list',
+                'And another item.',
+                '',
+                'You can have properly indented paragraphs within list items. Notice the blank line above, and the leading spaces (at least one, but we\'ll use three here to also align the raw Markdown).',
+                '',
+                'To have a line break without a paragraph, you will need to use two trailing spaces.',
+                'Note that this line is separate, but within the same paragraph.',
+                '(This is contrary to the typical GFM line break behaviour, where trailing spaces are not required.)',
+                '',
+                'Unordered list can use asterisks',
+                'Or minuses',
+                'Or pluses'
             ]);
         });
 
@@ -99,7 +133,7 @@ describe('extract', function() {
             it('should extract generic code indented with four spaces', function() {
                 const markdown = [
                     '    # some comment',
-                    '    ls -la',
+                    '    ls -la'
                 ].join('\n');
 
                 const { skeleton, data: xliff } = extract(markdown);
@@ -254,7 +288,7 @@ describe('extract', function() {
                 'Emphasis, aka italics, with *asterisks* or _underscores_.',
                 'Strong emphasis, aka bold, with **asterisks** or __underscores__.',
                 'Combined emphasis with **asterisks and _underscores_**.',
-                'Strikethrough uses two tildes. ~~Scratch this.~~',
+                'Strikethrough uses two tildes. ~~Scratch this.~~'
             ].join('\n');
 
             const { skeleton, data: xliff } = extract(markdown);
@@ -402,20 +436,20 @@ describe('extract', function() {
 
     describe('segment splitting', function() {
         it('should split segments by .!?', function() {
-            const markdown = 'It was grateful. It was grateful? It was grateful!';
+            const markdown = 'It was grate. It was grate? It was grate!';
 
             const { skeleton, data: xliff } = extract(markdown);
 
-            assert.equal(skeleton,[
+            assert.equal(skeleton, [
                 '%%%1%%%',
                 '%%%2%%%',
                 '%%%3%%%'
             ].join(' '));
 
             assertContent(xliff, [
-                'It was grateful.',
-                'It was grateful?',
-                'It was grateful!'
+                'It was grate.',
+                'It was grate?',
+                'It was grate!'
             ]);
         });
 
@@ -438,22 +472,23 @@ describe('extract', function() {
             ]);
         });
 
+        // https://github.com/cataria-rocks/md2xliff/issues/23
         it.skip('should split number', function() {
             const markdown = [
-               'First level heading i.e. 1.',
+                'First level heading i.e. 1.',
                 'First level heading i.e. (1).'
             ].join('\n');
 
             const { skeleton, data: xliff } = extract(markdown);
 
-            assert.equal(skeleton,[
+            assert.equal(skeleton, [
                 '%%%1%%%',
                 '%%%2%%%'
             ].join('\n'));
 
             assertContent(xliff, [
-               'First level heading i.e. 1.',
-               'First level heading i.e. (1).'
+                'First level heading i.e. 1.',
+                'First level heading i.e. (1).'
             ]);
         });
 
@@ -463,11 +498,11 @@ describe('extract', function() {
                 'Лего 2.0. "появление БЭМ" (2009).',
                 'Лего 2.0. Появление БЭМ (2009).',
                 'Лего 2.0. "Появление БЭМ" (2009).'
-            ].join('\n');;
+            ].join('\n');
 
             const { skeleton, data: xliff } = extract(markdown);
 
-            assert.equal(skeleton,[
+            assert.equal(skeleton, [
                 '%%%1%%%',
                 '%%%2%%%',
                 '%%%3%%% %%%4%%%',
@@ -501,7 +536,7 @@ describe('extract', function() {
 
     it('should escape string with entity', function() {
         const markdown = [
-            'First level heading — H1.',
+            'First level heading — H1.',
             'Second level heading \t H2.',
             'Third level heading \r H3.',
             'Fourth level heading \r\n H4.',
@@ -511,11 +546,11 @@ describe('extract', function() {
         const { skeleton, data: xliff } = extract(markdown);
 
         assert.equal(skeleton, [
-           '%%%1%%%',
-           '%%%2%%%',
-           '%%%3%%%',
-           '%%%4%%%',
-           '%%%5%%%'
+            '%%%1%%%',
+            '%%%2%%%',
+            '%%%3%%%',
+            '%%%4%%%',
+            '%%%5%%%'
         ].join('\n'));
 
         assertContent(xliff, [
@@ -526,5 +561,4 @@ describe('extract', function() {
             'Fifth level heading \n H5.'
         ]);
     });
-
 });
