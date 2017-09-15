@@ -7,7 +7,7 @@ var fs = require('fs'),
     sourceMdFile = path.resolve(__dirname, 'source.md'),
     sourceMd = fs.readFileSync(sourceMdFile, 'utf8'),
     extracted = md2xliff.extract(sourceMd, sourceMdFile),
-    reconstructed = md2xliff.reconstruct(extracted.xliff, extracted.skeleton, function(err, translatedMd) {
+    reconstructed = md2xliff.xliffReconstruct(extracted.xliff, extracted.skeleton, function(err, translatedMd) {
         if (err) throw new Error(err);
 
         try {
