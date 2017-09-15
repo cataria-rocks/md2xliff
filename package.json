@@ -5,7 +5,7 @@
   "main": "index.js",
   "bin": {
     "extract": "./bin/extract",
-    "xliffreconstruct": "./bin/xliff-reconstruct",
+    "xliffReconstruct": "./bin/xliff-reconstruct",
     "pretranslate": "./bin/pretranslate"
   },
   "scripts": {
