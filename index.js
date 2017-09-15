@@ -1,5 +1,5 @@
 module.exports = {
     extract: require('./lib/extract'),
-    reconstruct: require('./lib/reconstruct'),
+    xliffreconstruct: require('./lib/xliff-reconstruct'),
     pretranslate: require('./lib/pretranslate')
 };
