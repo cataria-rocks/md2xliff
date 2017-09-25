@@ -1,15 +1,15 @@
 {
   "name": "md2xliff",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Markdown to XLIFF converter",
   "main": "index.js",
   "bin": {
     "extract": "./bin/extract",
-    "reconstruct": "./bin/reconstruct",
+    "xliffReconstruct": "./bin/xliff-reconstruct",
     "pretranslate": "./bin/pretranslate"
   },
   "scripts": {
-    "test": "node test"
+    "test": "nyc mocha && node test/smoke"
   },
   "bugs": {
     "url": "http://github.com/tadatuta/md2xliff/issues"
@@ -37,8 +37,14 @@
     "esprima-extract-comments": "^0.1.2",
     "got": "^5.0.0",
     "htmlparser2": "^3.8.3",
+    "is-html": "^1.1.0",
     "marked": "^0.3.5",
     "postcss": "^5.0.10",
+    "strip": "^3.0.0",
     "xamel": "^0.3.1"
+  },
+  "devDependencies": {
+    "mocha": "^3.5.0",
+    "nyc": "^11.1.0"
   }
 }

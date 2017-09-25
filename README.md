@@ -10,7 +10,7 @@ Translater fills XLIFF with translations. `pretranslate` module may be used for 
 
 [Online XLIFF Editor](http://xliff.brightec.co.uk/) may be used to work with XLIFF files.
 
-Then with `reconstruct` module it is possible to build translated markdown with the same markup as in source document.
+Then with `xliff-reconstruct` module it is possible to build translated markdown with the same markup as in source document.
 
 ## Usage
 All modules have JS API and a CLI.
@@ -20,10 +20,10 @@ To extract XLIFF and generate skeleton run `./bin/extract test/source.md`.
 
 ### reconstruct
 To reconstruct new markdown from XLIFF and skeleton built with `extract` command run
-`./bin/reconstruct test/source.xlf test/source.skl.md target.md`.
+`./bin/xliff-reconstruct test/source.xlf test/source.skl.md target.md`.
 
 Environment variable `USE_SOURCE` may also be used to reconstruct target markdown from `<source>` units of XLIFF. It is helpful for testing:
-`USE_SOURCE=1 ./bin/reconstruct test/source.xlf test/source.skl.md target.md`.
+`USE_SOURCE=1 ./bin/xliff-reconstruct test/source.xlf test/source.skl.md target.md`.
 
 ### pretranslate
 To automatically pretranslate XLIFF run `API_KEY=your-yandex-translator-api-key ./bin/pretranslate test/source.xlf`.
