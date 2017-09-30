@@ -12,20 +12,43 @@ Translater fills XLIFF with translations. `pretranslate` module may be used for 
 
 Then with `xliff-reconstruct` module it is possible to build translated markdown with the same markup as in source document.
 
+## Installation requirements
+
+* [Node.js 4+](https://nodejs.org) is a platform built on JavaScript runtime for easily building fast, scalable network applications.
+* [Git Bash](https://git-for-windows.github.io/) if you use Windows OS.
+
+## Installation
+
+It's as easy as...
+
+```bash
+
+npm install md2xliff
+
+```
+
+**Note:** Do not use `root` rights to install `npm` dependencies.
+
 ## Usage
+
+![scheme](static/md2xliff__scheme.png)
+
 All modules have JS API and a CLI.
 
-### extract
+### Step 1 — extract
+
 To extract XLIFF and generate skeleton run `./bin/extract test/source.md`.
 
-### reconstruct
-To reconstruct new markdown from XLIFF and skeleton built with `extract` command run
-`./bin/xliff-reconstruct test/source.xlf test/source.skl.md target.md`.
+### Step 2 — translate
 
-Environment variable `USE_SOURCE` may also be used to reconstruct target markdown from `<source>` units of XLIFF. It is helpful for testing:
-`USE_SOURCE=1 ./bin/xliff-reconstruct test/source.xlf test/source.skl.md target.md`.
+To translate XLIFF file you can use a text editor or any CAT tools ([MateCat](https://www.matecat.com ), [Swordfish](http://www.maxprograms.com/products/swordfish.html)).
 
-### pretranslate
-To automatically pretranslate XLIFF run `API_KEY=your-yandex-translator-api-key ./bin/pretranslate test/source.xlf`.
+Also you can automatically pretranslate XLIFF file. For this run `API_KEY=your-yandex-translator-api-key ./bin/pretranslate test/source.xlf`.
 
 It is also possible to set `JUST_UPPER_CASE` environment variable to use upper case of `source` units instead of translation which may be useful for testing: `JUST_UPPER_CASE=1 ./bin/pretranslate test/source.xlf`.
+
+### Step 3 — reconstruct
+
+To reconstruct new markdown from XLIFF and skeleton built with `extract` command run `./bin/reconstruct test/source.xlf test/source.skl.md test/target.md`.
+
+Environment variable `USE_SOURCE` may also be used to reconstruct target markdown from `<source>` units of XLIFF. It is helpful for testing: `USE_SOURCE=1 ./bin/reconstruct test/source.xlf test/source.skl.md test/target.md`.
