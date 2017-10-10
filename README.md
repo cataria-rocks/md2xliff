@@ -49,6 +49,6 @@ It is also possible to set `JUST_UPPER_CASE` environment variable to use upper c
 
 ### Step 3 — reconstruct
 
-To reconstruct new markdown from XLIFF and skeleton built with `extract` command run `./bin/reconstruct test/source.xlf test/source.skl.md test/target.md`.
+To reconstruct new markdown from XLIFF and skeleton built with `extract` command run `./bin/xliff-reconstruct test/source.xlf test/source.skl.md test/target.md`.
 
-Environment variable `USE_SOURCE` may also be used to reconstruct target markdown from `<source>` units of XLIFF. It is helpful for testing: `USE_SOURCE=1 ./bin/reconstruct test/source.xlf test/source.skl.md test/target.md`.
+Environment variable `USE_SOURCE` may also be used to reconstruct target markdown from `<source>` units of XLIFF. It is helpful for testing: `USE_SOURCE=1 ./bin/xliff-reconstruct test/source.xlf test/source.skl.md test/target.md`.
