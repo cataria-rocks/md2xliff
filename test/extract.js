@@ -80,7 +80,7 @@ describe('extract', function() {
                 '- Or minuses',
                 '+ Or pluses',
                 '1.  First',
-                '2.  Second',
+                '2.  Second'
             ].join('\n');
 
             const { skeleton, data: xliff } = extract(markdown);
@@ -117,7 +117,7 @@ describe('extract', function() {
                 const markdown = [
                     '    # some comment. Something else.',
                     '    ls -la',
-                    '    # new comment',
+                    '    # new comment'
                 ].join('\n');
 
                 const { skeleton, data: xliff } = extract(markdown);
@@ -219,30 +219,29 @@ describe('extract', function() {
             it('should extract HTML', function() {
                 const markdown = [
                     '```html',
-                        '<html>',
-                        '<head>',
-                        '    <style type="text/css">',
-                        '        h2 {color: brown;}',
-                        '        /* color is brown */',
-                        '        h1 {color: green;}',
-                        '        /* color is green */',
-                        '    </style>',
-                        '</head>',
-                        '<body>',
-                        '    <h2>Header</h2>',
-                        '    <!-- header is h2 -->',
-                        '    <script type="text/javascript">',
-                        '       // add tag h1',
-                        '       const arr = [];',
-                        '       arr.push("Hello, World!");',
-                        //'       document.write("<h1>Hello, World!</h1>");', incorrect parse
-                        '       /*',
-                        '           multi-line',
-                        '           comments',
-                        '       */',
-                        '    </script>',
-                        '</body>',
-                        '</html>',
+                    '<html>',
+                    '<head>',
+                    '    <style type="text/css">',
+                    '        h2 {color: brown;}',
+                    '        /* color is brown */',
+                    '        h1 {color: green;}',
+                    '        /* color is green */',
+                    '    </style>',
+                    '</head>',
+                    '<body>',
+                    '    <h2>Header</h2>',
+                    '    <!-- header is h2 -->',
+                    '    <script type="text/javascript">',
+                    '       // add tag h1',
+                    '       const arr = [];',
+                    '       arr.push("Hello, World!");',
+                    '       /*',
+                    '           multi-line',
+                    '           comments',
+                    '       */',
+                    '    </script>',
+                    '</body>',
+                    '</html>',
                     '```'
                 ].join('\n');
 
@@ -250,27 +249,26 @@ describe('extract', function() {
 
                 assert.equal(skeleton, [
                     '```html',
-                        '<html>',
-                        '<head>',
-                        '    <style type="text/css">',
-                        '        h2 {color: brown;}',
-                        '        /*%%%1%%%*/',
-                        '        h1 {color: green;}',
-                        '        /*%%%2%%%*/',
-                        '    </style>',
-                        '</head>',
-                        '<body>',
-                        '    <h2>Header</h2>',
-                        '    <!--%%%3%%%-->',
-                        '    <script type="text/javascript">',
-                        '       //%%%4%%%',
-                        '       const arr = [];',
-                        '       arr.push("Hello, World!");',
-                        //'       document.write("<h1>Hello, World!</h1>");', incorrect parse
-                        '       /*%%%5%%%*/',
-                        '    </script>',
-                        '</body>',
-                        '</html>',
+                    '<html>',
+                    '<head>',
+                    '    <style type="text/css">',
+                    '        h2 {color: brown;}',
+                    '        /*%%%1%%%*/',
+                    '        h1 {color: green;}',
+                    '        /*%%%2%%%*/',
+                    '    </style>',
+                    '</head>',
+                    '<body>',
+                    '    <h2>Header</h2>',
+                    '    <!--%%%3%%%-->',
+                    '    <script type="text/javascript">',
+                    '       //%%%4%%%',
+                    '       const arr = [];',
+                    '       arr.push("Hello, World!");',
+                    '       /*%%%5%%%*/',
+                    '    </script>',
+                    '</body>',
+                    '</html>',
                     '```'
                 ].join('\n'));
 
@@ -336,6 +334,10 @@ describe('extract', function() {
                         '       and the paragraph with id = "myP"',
                         '       in my web page:',
                         '   */',
+                        '',
+                        '{',
+                        '    url : \'https://bem.info/\'',
+                        '}',
                         '```'
                     ].join('\n');
 
@@ -350,12 +352,16 @@ describe('extract', function() {
                         '});',
                         'BEMDOM.append($(\'.form\'), html)',
                         '   /*%%%2%%%*/',
+                        '',
+                        '{',
+                        '    url : \'https://bem.info/\'',
+                        '}',
                         '```'
                     ].join('\n'));
 
                     assertContent(xliff, [
                         ' NOTE: explicitly call `init();` ',
-                        '\n       The code below will change\n       the heading with id = "myH"\n       and the paragraph with id = "myP"\n       in my web page:\n   ',
+                        '\n       The code below will change\n       the heading with id = "myH"\n       and the paragraph with id = "myP"\n       in my web page:\n   '
                     ]);
                 });
 
@@ -427,9 +433,9 @@ describe('extract', function() {
                     '1.',
                     'Some'
                 ]);
-           });
+            });
 
-           it('should extract tables with inline markdown', function() {
+            it('should extract tables with inline markdown', function() {
                 const markdown = [
                     'Markdown | Less | Pretty',
                     '--- | --- | ---',
@@ -443,7 +449,7 @@ describe('extract', function() {
                     '%%%1%%% | %%%2%%% | %%%3%%%',
                     '--- | --- | ---',
                     '%%%4%%% | %%%5%%% | %%%6%%%',
-                    '%%%7%%% | %%%8%%% | %%%9%%%',
+                    '%%%7%%% | %%%8%%% | %%%9%%%'
                 ].join('\n'));
 
                 assertContent(xliff, [
@@ -455,15 +461,15 @@ describe('extract', function() {
                     '<bpt id="1">**</bpt>nicely<ept id="1">**</ept>',
                     '1',
                     '2',
-                    '3',
+                    '3'
                 ]);
-           });
+            });
 
-           it('should extract empty tables', function() {
+            it('should extract empty table cells', function() {
                 const markdown = [
                     ' One | Two ',
                     ' --- | --- ',
-                    '     |  some  ',
+                    '     |  some  '
                 ].join('\n');
 
                 const { skeleton, data: xliff } = extract(markdown);
@@ -530,13 +536,12 @@ describe('extract', function() {
     describe('inline markup', function() {
         it('should extract emphasis', function() {
             const markdown = [
-            'Emphasis, aka italics, with *asterisks* or _underscores_.',
-            'Strong emphasis, aka bold with **asterisks** or __underscores__.',
-            'Strike through uses two tildes, ~~scratch this~~.',
-            'Inline `code` has `back-ticks around` it.',
-            'Combined emphasis with __asterisks and *underscores*__.',
-            'Combined emphasis with **asterisks and _underscores_**.'
-
+                'Emphasis, aka italics, with *asterisks* or _underscores_.',
+                'Strong emphasis, aka bold with **asterisks** or __underscores__.',
+                'Strike through uses two tildes, ~~scratch this~~.',
+                'Inline `code` has `back-ticks around` it.',
+                'Combined emphasis with __asterisks and *underscores*__.',
+                'Combined emphasis with **asterisks and _underscores_**.'
             ].join('\n');
 
             const { skeleton, data: xliff } = extract(markdown);
@@ -633,13 +638,13 @@ describe('extract', function() {
         it('should extract images', function() {
             const markdown = [
                 'Here\'s our logo (hover to see the title text):',
-                 '',
+                '',
                 'Inline-style: ![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")',
                 '',
                 'Reference-style: ![alt text][logo]',
                 '',
                 '[logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"'
-               ].join('\n');
+            ].join('\n');
 
             const { skeleton, data: xliff } = extract(markdown);
 
@@ -757,8 +762,7 @@ describe('extract', function() {
                 '',
                 '%%%3%%%',
                 '%%%4%%%',
-                '%%%5%%%',
-
+                '%%%5%%%'
             ].join('\n'));
 
             assertContent(xliff, [
@@ -797,8 +801,8 @@ describe('extract', function() {
                 '%%%8%%%<em name = "%%%9%%%">%%%10%%%</em>%%%11%%%',
                 '%%%12%%%',
                 '%%%13%%%<em class = "23" name = "%%%14%%%">%%%15%%%</em>%%%16%%%',
-               '<!--%%%17%%%-->',
-               '<!--%%%18%%% %%%19%%% %%%20%%%-->'
+                '<!--%%%17%%%-->',
+                '<!--%%%18%%% %%%19%%% %%%20%%%-->'
             ].join('\n'));
 
             assertContent(xliff, [
@@ -846,10 +850,10 @@ describe('extract', function() {
 
             const { skeleton, data: xliff } = extract(markdown);
 
-            assert.equal(skeleton,[
+            assert.equal(skeleton, [
                 '<div class="b1">%%%1%%%</div>',
                 '<div name="%%%2%%%">%%%3%%%</div>',
-               '%%%4%%%',
+                '%%%4%%%',
                 '',
                 '<div class="b1">%%%5%%%</div>',
                 '       %%%6%%%<p>%%%7%%%</p>',
@@ -857,11 +861,10 @@ describe('extract', function() {
                 '%%%9%%%<p>%%%10%%%</p>',
                 '',
                 '<div class="b1">%%%11%%%</div>',
-               '<h1>%%%12%%%</h1>',
-               '',
-               '<!--%%%13%%%-->',
-              '<img src="%%%14%%%" alt="%%%15%%%"/>',
-
+                '<h1>%%%12%%%</h1>',
+                '',
+                '<!--%%%13%%%-->',
+                '<img src="%%%14%%%" alt="%%%15%%%"/>'
             ].join('\n'));
 
             assertContent(xliff, [
@@ -876,10 +879,10 @@ describe('extract', function() {
                 '   ',
                 'Text2',
                 'Some text <bpt id="1">&lt;em&gt;</bpt>text<ept id="1">&lt;/em&gt;</ept> text',
-               'H1',
-               ' Text ',
-               'https://hdfon.ru/wp-content/uploads/hdfon.ru-928786631.jpg',
-               'alt text'
+                'H1',
+                ' Text ',
+                'https://hdfon.ru/wp-content/uploads/hdfon.ru-928786631.jpg',
+                'alt text'
             ]);
         });
 
@@ -903,13 +906,13 @@ describe('extract', function() {
                 '<a href = "codestring">link.</a>',
                 '',
                 '<a href = "codestring" class = "block1">link</a>',
-               '',
-               '<img src="https://hdfon.ru/wp-content/uploads/hdfon.ru-928786631.jpg" alt="alt text"/>'
+                '',
+                '<img src="https://hdfon.ru/wp-content/uploads/hdfon.ru-928786631.jpg" alt="alt text"/>'
             ].join('\n');
 
             const { skeleton, data: xliff } = extract(markdown);
 
-            assert.equal(skeleton,[
+            assert.equal(skeleton, [
                 '%%%1%%%',
                 '',
                 '%%%2%%%',
@@ -984,7 +987,7 @@ describe('extract', function() {
 
             const { skeleton, data: xliff } = extract(markdown);
 
-            assert.equal(skeleton,[
+            assert.equal(skeleton, [
                 '%%%1%%%',
                 '%%%2%%%'
             ].join('\n'));
@@ -1045,30 +1048,15 @@ describe('extract', function() {
 
     it('should escape slashes (#16)', function() {
         const markdown = [
-            '# Можно-ли-создавать-элементы-элементов-block\\__elem1\\__elem2',
-            'Можно-ли-создавать-элементы-элементов-block\\elem1\\elem2'
-        ].join('\n');
-
-        const { skeleton, data: xliff } = extract(markdown);
-
-        assert.equal(skeleton, [
-            '# %%%1%%%',
-            '%%%2%%%'
-        ].join('\n'));
-
-        assertContent(xliff, [
-            'Можно-ли-создавать-элементы-элементов-block\\<bpt id="1">__</bpt>elem1\\<ept id="1">__</ept>elem2',
-            'Можно-ли-создавать-элементы-элементов-block\\elem1\\elem2'
-        ]);
-    });
-
-    it.skip('should escape string with entity', function() {
-        const markdown = [
-            'First level heading — H1.',
-            'Second level heading \t H2.',
-            'Third level heading \r H3.',
-            'Fourth level heading \r\n H4.',
-            'Fifth level heading ␤ H5.'
+            'Text \\*asterisks\\*.',
+            '\\* It is asterisks.',
+            '\\+ It is plus.',
+            '\\_underscores\\_',
+            '',
+            'Text\\`backticks\\`',
+            '',
+            'Можно-ли-создавать-элементы-элементов-block\\elem1\\elem2.',
+            'Можно-ли-создавать-элементы-элементов-block\\__elem1\\__elem2'
         ].join('\n');
 
         const { skeleton, data: xliff } = extract(markdown);
@@ -1078,15 +1066,21 @@ describe('extract', function() {
             '%%%2%%%',
             '%%%3%%%',
             '%%%4%%%',
-            '%%%5%%%'
+            '',
+            '%%%5%%%',
+            '',
+            '%%%6%%%',
+            '%%%7%%%'
         ].join('\n'));
 
         assertContent(xliff, [
-            'First level heading — H1.',
-            'Second level heading      H2.',
-            'Third level heading \n H3.',
-            'Fourth level heading \n H4.',
-            'Fifth level heading \n H5.'
+            'Text \\*asterisks\\*.',
+            '\\* It is asterisks.',
+            '\\+ It is plus.',
+            '\\_underscores\\_',
+            'Text\\`backticks\\`',
+            'Можно-ли-создавать-элементы-элементов-block\\elem1\\elem2.',
+            'Можно-ли-создавать-элементы-элементов-block\\__elem1\\__elem2'
         ]);
     });
 });
