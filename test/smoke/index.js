@@ -13,9 +13,10 @@ md2xliff.xliffReconstruct(extracted.xliff, extracted.skeleton, function(err, tra
 
     try {
         assert.equal(sourceMd, translatedMd);
-    } catch(err) {
+    } catch (error) {
+        /* eslint no-console: ["error", { allow: ["log"] }] */
         console.log('Expected:', sourceMd);
         console.log('Actual result:', translatedMd);
-        throw new Error(err);
+        throw new Error(error);
     }
 });
