@@ -983,6 +983,7 @@ describe('extract', function() {
             const markdown = [
                 'First level heading i.e. h1.',
                 'First level heading (i.e. h1).',
+                'Any number (e.g. 0)',
                 'Заголовок первого уровня т.е. "h1".'
             ].join('\n');
 
@@ -991,12 +992,14 @@ describe('extract', function() {
             assert.equal(skeleton, [
                 '%%%1%%%',
                 '%%%2%%%',
-                '%%%3%%%'
+                '%%%3%%%',
+                '%%%4%%%'
             ].join('\n'));
 
             assertContent(xliff, [
                 'First level heading i.e. h1.',
                 'First level heading (i.e. h1).',
+                'Any number (e.g. 0)',
                 'Заголовок первого уровня т.е. "h1".'
             ]);
         });
