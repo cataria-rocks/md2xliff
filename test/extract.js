@@ -32,6 +32,55 @@ describe('extract', function() {
         });
     });
 
+    describe('yaml metadata', function() {
+        it('should extract values from yaml metadata', function() {
+            const markdown = [
+                '---',
+                'date: "2019-05-17"',
+                'title: "A great Tutorial Template! :+1:"',
+                'tags: ["Development", "Lang:Go", "Lang:JS"]',
+                'language: "en"',
+                'available_languages: ["en", "ru"]',
+                'header_img: ""',
+                '---',
+                '',
+                '## Introduction',
+                '',
+                'Some text.'
+            ].join('\n');
+
+            const { skeleton, data: xliff } = extract(markdown);
+
+            assert.equal(skeleton, [
+                '---',
+                'date: "%%%1%%%"',
+                'title: "%%%2%%%"',
+                'tags: ["%%%3%%%", "%%%4%%%", "%%%5%%%"]',
+                'language: "%%%6%%%"',
+                'available_languages: ["%%%7%%%", "%%%8%%%"]',
+                'header_img: ""',
+                '---',
+                '',
+                '## %%%9%%%',
+                '',
+                '%%%10%%%'
+            ].join('\n'));
+
+            assertContent(xliff, [
+                '2019-05-17',
+                'A great Tutorial Template! :+1:',
+                'Development',
+                'Lang:Go',
+                'Lang:JS',
+                'en',
+                'en',
+                'ru',
+                'Introduction',
+                'Some text.'
+            ]);
+        });
+    });
+
     describe('block markup', function() {
         it('should extract headers', function() {
             const markdown = [
